@@ -70,12 +70,7 @@ class TwitchAPI:
                 timeout=REQUEST_TIMEOUT_SECONDS,
             )
             status_code = response.status_code
-        except Exception as exc:
-            self._log_fail_closed(
-                "twitch_token_fetch_failed_closed",
-                error_type=type(exc).__name__,
-            )
-        else:
+
             if response.status_code == 200:
                 data: Any = response.json()
                 access_token = (
@@ -89,7 +84,12 @@ class TwitchAPI:
                     self.token = access_token
                     self.token_exp = time.time() + expires_in
                     return
-
+        except Exception as exc:
+            self._log_fail_closed(
+                "twitch_token_fetch_failed_closed",
+                error_type=type(exc).__name__,
+            )
+        else:
             self._log_fail_closed(
                 "twitch_token_fetch_failed_closed",
                 status_code=status_code,

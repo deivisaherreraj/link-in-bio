@@ -100,6 +100,35 @@ def test_generate_token_clears_state_on_request_failure(monkeypatch):
     assert api.token_exp == 0
 
 
+def test_generate_token_fails_closed_on_json_failure(monkeypatch, caplog):
+    api = twitch.TwitchAPI()
+    api.token = "old-token"
+    api.token_exp = 999
+
+    class BrokenJsonResponse(StubResponse):
+        def json(self) -> dict[str, Any]:
+            raise ValueError("sensitive response details")
+
+    monkeypatch.setattr(
+        twitch.requests,
+        "post",
+        lambda url, data, timeout: BrokenJsonResponse(200, {}),
+    )
+
+    with caplog.at_level("WARNING"):
+        api.generate_token()
+
+    assert api.token is None
+    assert api.token_exp == 0
+    assert caplog.records[-1].message == "twitch_token_fetch_failed_closed"
+    assert caplog.records[-1].event == "twitch_token_fetch_failed_closed"
+    assert caplog.records[-1].integration == "twitch"
+    assert caplog.records[-1].operation == "token"
+    assert caplog.records[-1].fail_closed is True
+    assert caplog.records[-1].error_type == "ValueError"
+    assert "sensitive response details" not in caplog.text
+
+
 def test_token_valid_depends_on_current_time(monkeypatch):
     api = twitch.TwitchAPI()
     api.token_exp = 150
@@ -109,6 +138,33 @@ def test_token_valid_depends_on_current_time(monkeypatch):
 
     monkeypatch.setattr(twitch.time, "time", lambda: 200)
     assert api.token_valid() is False
+
+
+def test_live_returns_offline_when_token_json_is_malformed(monkeypatch):
+    api = twitch.TwitchAPI()
+    get_calls = []
+
+    class BrokenJsonResponse(StubResponse):
+        def json(self) -> dict[str, Any]:
+            raise ValueError("bad json")
+
+    monkeypatch.setattr(
+        twitch.requests,
+        "post",
+        lambda url, data, timeout: BrokenJsonResponse(200, {}),
+    )
+    monkeypatch.setattr(
+        twitch.requests,
+        "get",
+        lambda url, params, headers, timeout: get_calls.append(True),
+    )
+
+    result = api.live("dherrerajdev")
+
+    assert result == api._offline_live()
+    assert api.token is None
+    assert api.token_exp == 0
+    assert get_calls == []
 
 
 def test_live_generates_token_and_maps_online_payload(monkeypatch):

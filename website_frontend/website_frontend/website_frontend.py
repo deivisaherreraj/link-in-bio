@@ -11,6 +11,9 @@ import website_frontend.styles.styles as styles
 
 # Importa la aplicación FastAPI desde el módulo api
 from website_frontend.api.api import fastapi_app
+from website_frontend.integrations.observability import configure_application_logging
+
+configure_application_logging()
 
 # Google tag (gtag.js)
 app = rx.App(
