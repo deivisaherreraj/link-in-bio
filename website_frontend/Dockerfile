@@ -2,12 +2,15 @@
 # Compatible con Railway, Render, DigitalOcean Apps, etc.
 
 # Imagen base completa (más simple, incluye unzip y herramientas del sistema)
-FROM python:3.11
+FROM python:3.12
+
+COPY --from=ghcr.io/astral-sh/uv:0.10.12 /uv /uvx /bin/
 
 # Configuración básica de Python
 ENV PYTHONDONTWRITEBYTECODE=1 \
     PYTHONUNBUFFERED=1 \
-    PIP_NO_CACHE_DIR=1
+    UV_PYTHON_DOWNLOADS=0 \
+    PATH="/app/.venv/bin:$PATH"
 
 # Instalamos Caddy como reverse proxy para unificar frontend + backend en un solo puerto
 RUN apt-get update -y && apt-get install -y --no-install-recommends \
@@ -46,11 +49,11 @@ route {
 }
 EOF
 
-# Copiamos solo requirements primero para aprovechar cache de Docker
-COPY requirements.txt ./
+# Copy canonical project metadata first to preserve the dependency layer cache.
+COPY pyproject.toml uv.lock ./
 
-# Instalamos dependencias de Python (Reflex, Supabase, ConfigCat, etc.)
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# Install the locked production dependencies without the development group.
+RUN uv sync --locked --no-dev --no-install-project
 
 # Copiamos el resto del código de la app
 COPY . .
