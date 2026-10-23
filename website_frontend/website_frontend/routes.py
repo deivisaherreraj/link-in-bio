@@ -1,5 +1,6 @@
 from enum import Enum
 
+
 # Define las rutas de la aplicación web
 class Route(Enum):
     INDEX = "/"

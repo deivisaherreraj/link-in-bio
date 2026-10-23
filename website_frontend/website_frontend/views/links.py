@@ -1,4 +1,7 @@
+from operator import ne
+
 import reflex as rx
+from reflex.components.lucide import Icon
 
 from website_frontend.components.link_featured import link_featured
 from website_frontend.components.section import section
@@ -35,7 +38,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
         link.icon_color or _fallback_icon_color(link.label)
         if isinstance(link, SocialLink)
         else rx.cond(
-            link.icon_color != None,
+            ne(link.icon_color, None),
             link.icon_color,
             rx.cond(
                 link.label == "Discord",
@@ -67,8 +70,8 @@ def render_social_link(link: SocialLink) -> rx.Component:
                 min_width="32px",
                 display="flex",
                 align_items="center",
-                    justify_content="center",
-                    flex_shrink=0,
+                justify_content="center",
+                flex_shrink=0,
                 border_radius="8px",
                 background_color=BackgroundColor.LIGHT.value,
                 border=f"1px solid {Color.BG_WHITE_TRANSPARENT.value}",
@@ -84,7 +87,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
                         line_height="1.2",
                     ),
                     rx.cond(
-                        link.badge != None,
+                        ne(link.badge, None),
                         rx.text(
                             link.badge,
                             font_size=FontSize.TINY.value,
@@ -98,7 +101,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
                             letter_spacing="0.02em",
                             white_space="nowrap",
                             background_color=rx.cond(
-                                link.badge_color != None,
+                                ne(link.badge_color, None),
                                 link.badge_color,
                                 rx.cond(
                                     link.is_active,
@@ -119,7 +122,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
                     margin_bottom=Margin.VERY_SMALL.value,
                 ),
                 rx.text(
-                    rx.cond(link.description != None, link.description, ""),
+                    rx.cond(ne(link.description, None), link.description, ""),
                     font_size=FontSize.TINY.value,
                     color=Color.GRAY.value,
                     as_="span",
@@ -135,7 +138,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
                 text_align="left",
             ),
             rx.box(
-                rx.icon(
+                Icon.create(
                     "chevron-right",
                     size=18,
                     color=Color.GRAY.value,
@@ -169,15 +172,17 @@ def render_social_link(link: SocialLink) -> rx.Component:
         background=rx.cond(
             link.is_active,
             BackgroundColor.SURFACE.value,
-            "linear-gradient(180deg, rgba(14, 20, 28, 0.98) 0%, rgba(9, 13, 18, 1) 100%)",
+            "linear-gradient(180deg, rgba(14, 20, 28, 0.98) 0%, "
+            "rgba(9, 13, 18, 1) 100%)",
         ),
         box_shadow=rx.cond(
-            link.border_color != None,
-            f"0 0 0 1px {Color.WHITE_TRANSPARENT.value}, 0 14px 32px rgba(0, 0, 0, 0.28)",
+            ne(link.border_color, None),
+            f"0 0 0 1px {Color.WHITE_TRANSPARENT.value}, "
+            "0 14px 32px rgba(0, 0, 0, 0.28)",
             "0 12px 28px rgba(0, 0, 0, 0.2)",
         ),
         border=rx.cond(
-            link.border_color != None,
+            ne(link.border_color, None),
             f"1px solid {link.border_color}",
             rx.cond(
                 link.is_active,
@@ -185,7 +190,10 @@ def render_social_link(link: SocialLink) -> rx.Component:
                 f"1px dashed {BorderColor.WHITE_TRANSPARENT.value}",
             ),
         ),
-        transition="transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease",
+        transition=(
+            "transform 180ms ease, box-shadow 180ms ease, "
+            "border-color 180ms ease, background 180ms ease"
+        ),
         _hover=rx.cond(
             link.is_active,
             {
@@ -193,7 +201,7 @@ def render_social_link(link: SocialLink) -> rx.Component:
                 "background": BackgroundColor.SURFACE_HOVER.value,
                 "boxShadow": "0 16px 32px rgba(0, 0, 0, 0.24)",
                 "borderColor": rx.cond(
-                    link.border_color != None,
+                    ne(link.border_color, None),
                     link.border_color,
                     BorderColor.WHITE_TRANSPARENT.value,
                 ),

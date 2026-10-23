@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import reflex as rx
+from reflex.event import EventCallback
 
 from website_frontend.content.blog_articles import (
     BLOG_ARTICLES,
@@ -13,7 +14,12 @@ from website_frontend.content.blog_articles import (
     categories,
 )
 from website_frontend.routes import Route
-from website_frontend.styles.colors import BackgroundColor, BorderColor, Color, TextColor
+from website_frontend.styles.colors import (
+    BackgroundColor,
+    BorderColor,
+    Color,
+    TextColor,
+)
 from website_frontend.styles.fonts import FontSize, FontWeight
 from website_frontend.styles.styles import Margin, Padding, Spacing
 from website_frontend.views.footer import footer
@@ -34,13 +40,16 @@ class BlogIndexState(rx.State):
 
         return len(articles_by_category(self.active_category))
 
-    @rx.event
-    def set_active_category(self, category: str):
+    @rx.event()
+    def set_active_category(self, category: str) -> None:
         self.active_category = "" if self.active_category == category else category
 
     @rx.event
     def clear_active_category(self):
         self.active_category = ""
+
+
+_set_active_category_event: EventCallback[str] = BlogIndexState.set_active_category
 
 
 def _page_shell(*children: rx.Component) -> rx.Component:
@@ -201,7 +210,7 @@ def _category_filter_button(category: str) -> rx.Component:
             align="center",
             spacing=Spacing.VERY_SMALL.value,
         ),
-        on_click=BlogIndexState.set_active_category(category),
+        on_click=_set_active_category_event(category),
         width="auto",
         height="auto",
         justify_content="center",

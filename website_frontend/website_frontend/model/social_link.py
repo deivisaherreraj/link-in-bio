@@ -2,7 +2,6 @@ from typing import Literal
 
 from pydantic import BaseModel
 
-
 SocialLinkSection = Literal["work", "community", "resources", "contact"]
 
 

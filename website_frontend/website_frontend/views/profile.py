@@ -30,7 +30,7 @@ def profile(
                     font_size=FontSize.EXTRA_LARGE.value,
                 ),
                 href=link.url,
-                is_external=~link.url.startswith("mailto:"),
+                is_external=rx.cond(link.url.startswith("mailto:"), False, True),
                 aria_label=link.label,
                 color=TextColor.BODY.value,
                 _hover={"color": Color.PRIMARY.value},
@@ -136,7 +136,11 @@ def profile(
         # Iconos sociales
         rx.hstack(
             *static_social_links,
-            *([] if static_social_links else [rx.foreach(PageState.profile_info.primary_socials, social_icon)]),
+            *(
+                []
+                if static_social_links
+                else [rx.foreach(PageState.profile_info.primary_socials, social_icon)]
+            ),
             justify="center",
             spacing=Spacing.LARGE.value,
             width="100%",

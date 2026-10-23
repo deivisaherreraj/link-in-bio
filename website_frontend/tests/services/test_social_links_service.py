@@ -60,7 +60,9 @@ def test_get_social_links_keeps_inactive_rows_visible_for_disabled_cards(monkeyp
     assert result[1].badge == "Próximamente"
 
 
-def test_get_social_links_falls_back_to_default_links_when_supabase_is_empty(monkeypatch):
+def test_get_social_links_falls_back_to_default_links_when_supabase_is_empty(
+    monkeypatch,
+):
     monkeypatch.setattr(
         social_links_service.SUPABASE_API,
         "social_links",

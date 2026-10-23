@@ -113,7 +113,10 @@ def resolve_project_status(raw_key: object) -> ProjectStatus:
     if not normalized_key:
         return default_status
 
-    return _build_project_status(
-        normalized_key,
-        PROJECT_STATUS_CONFIG.get(normalized_key),
-    ) or default_status
+    return (
+        _build_project_status(
+            normalized_key,
+            PROJECT_STATUS_CONFIG.get(normalized_key),
+        )
+        or default_status
+    )

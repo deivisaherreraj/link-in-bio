@@ -1,5 +1,9 @@
 from website_frontend.model.profile import ProfileBioSegment
-from website_frontend.views.header import _intro_paragraph, _render_intro_segment, header
+from website_frontend.views.header import (
+    _intro_paragraph,
+    _render_intro_segment,
+    header,
+)
 
 
 def test_header_renders_profile_bio_short_below_live_banner() -> None:

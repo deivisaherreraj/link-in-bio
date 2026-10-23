@@ -1,3 +1,5 @@
+from operator import ne
+
 import reflex as rx
 
 from website_frontend.components.status_badge import status_badge
@@ -56,7 +58,10 @@ def _action_link(
         background_color=(
             BackgroundColor.LIGHT.value if primary else Color.BG_WHITE_TRANSPARENT.value
         ),
-        class_name="transition-all z-10 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
+        class_name=(
+            "transition-all z-10 hover:-translate-y-0.5 "
+            "hover:border-white/30 hover:bg-white/10"
+        ),
     )
 
 
@@ -86,7 +91,10 @@ def _icon_action_link(
         background_color=Color.BG_WHITE_TRANSPARENT.value,
         z_index="10",
         aria_label=aria_label,
-        class_name="transition-all z-10 hover:-translate-y-0.5 hover:border-white/30 hover:bg-white/10",
+        class_name=(
+            "transition-all z-10 hover:-translate-y-0.5 "
+            "hover:border-white/30 hover:bg-white/10"
+        ),
     )
 
 
@@ -147,7 +155,7 @@ def link_featured(featured: Featured) -> rx.Component:
         ),
         rx.flex(
             rx.cond(
-                featured.href != None,
+                ne(featured.href, None),
                 _action_link(
                     label="Ver Detalles",
                     href=featured.href,
@@ -163,7 +171,7 @@ def link_featured(featured: Featured) -> rx.Component:
             ),
             rx.hstack(
                 rx.cond(
-                    featured.github_url != None,
+                    ne(featured.github_url, None),
                     _icon_action_link(
                         href=featured.github_url,
                         icon_class="fa-brands fa-github",
@@ -172,7 +180,7 @@ def link_featured(featured: Featured) -> rx.Component:
                     ),
                 ),
                 rx.cond(
-                    featured.live_url != None,
+                    ne(featured.live_url, None),
                     _icon_action_link(
                         href=featured.live_url,
                         icon_class="fa-solid fa-arrow-up-right-from-square",

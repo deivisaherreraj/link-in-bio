@@ -27,10 +27,10 @@ def test_render_social_link_uses_model_contract_fields() -> None:
 
     rendered = str(component)
 
-    assert 'mailto:test@example.com' in rendered
-    assert 'Direct contact' in rendered
-    assert 'fa-solid fa-envelope' in rendered
-    assert '1px solid #123456' in rendered
+    assert "mailto:test@example.com" in rendered
+    assert "Direct contact" in rendered
+    assert "fa-solid fa-envelope" in rendered
+    assert "1px solid #123456" in rendered
     assert '"padding" : "12px"' in rendered or '["padding"] : "12px"' in rendered
     assert 'target:(false ? "_blank" : "")' in rendered
 
@@ -52,10 +52,10 @@ def test_render_social_link_visually_separates_disabled_cards() -> None:
     rendered = str(component)
 
     assert '(false ? "1" : "0.74")' in rendered
-    assert 'Pr' in rendered
-    assert '\\u00f3ximamente' in rendered
-    assert 'grayscale(0.1) saturate(0.75)' in rendered
-    assert '1px dashed #ffffff26' in rendered
+    assert "Pr" in rendered
+    assert "\\u00f3ximamente" in rendered
+    assert "grayscale(0.1) saturate(0.75)" in rendered
+    assert "1px dashed #ffffff26" in rendered
 
 
 def test_render_social_link_uses_brand_colors_for_community_icons() -> None:

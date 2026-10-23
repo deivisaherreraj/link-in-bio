@@ -82,4 +82,4 @@ def test_profile_keeps_social_icons_below_technology_badges() -> None:
 
     assert "Stack" in rendered
     assert "GitHub" in rendered
-    assert "line_height=\"1.8\"" not in rendered
+    assert 'line_height="1.8"' not in rendered

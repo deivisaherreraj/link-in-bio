@@ -1,7 +1,8 @@
+from operator import ne
+
 import reflex as rx
 
 from website_frontend.styles.styles import Color, Padding
-
 
 DEFAULT_FEATURED_IMAGE = "/featured-default.svg"
 
@@ -10,7 +11,7 @@ def direction_aware_hover(
     image_url: str | None,
     children: rx.Component,
 ) -> rx.Component:
-    resolved_image_url = rx.cond(image_url != None, image_url, DEFAULT_FEATURED_IMAGE)
+    resolved_image_url = rx.cond(ne(image_url, None), image_url, DEFAULT_FEATURED_IMAGE)
 
     return rx.card(
         rx.box(
@@ -32,7 +33,8 @@ def direction_aware_hover(
                 height="100%",
                 z_index="5",
                 background=(
-                    "linear-gradient(180deg, rgba(4, 8, 15, 0.05) 0%, rgba(4, 8, 15, 0.22) 58%, rgba(4, 8, 15, 0.65) 100%)"
+                    "linear-gradient(180deg, rgba(4, 8, 15, 0.05) 0%, "
+                    "rgba(4, 8, 15, 0.22) 58%, rgba(4, 8, 15, 0.65) 100%)"
                 ),
             ),
             rx.box(
@@ -64,7 +66,8 @@ def direction_aware_hover(
             height="100%",
             width="100%",
             background=(
-                "linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, rgba(15, 23, 42, 0.92) 100%)"
+                "linear-gradient(135deg, rgba(99, 102, 241, 0.28) 0%, "
+                "rgba(15, 23, 42, 0.92) 100%)"
             ),
         ),
         position="relative",

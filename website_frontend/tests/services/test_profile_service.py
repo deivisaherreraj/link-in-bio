@@ -197,8 +197,7 @@ def test_get_default_profile_returns_minimal_resilience_copy() -> None:
         "Profile details are temporarily unavailable."
     ]
     assert (
-        profile.tech_stack_summary
-        == "Tech stack details are temporarily unavailable."
+        profile.tech_stack_summary == "Tech stack details are temporarily unavailable."
     )
 
 

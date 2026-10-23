@@ -22,7 +22,9 @@ class ProfileBioSegment(BaseModel):
     is_highlighted: bool = False
 
 
-def _build_bio_segments(bio_short: str, highlights: list[str]) -> list[ProfileBioSegment]:
+def _build_bio_segments(
+    bio_short: str, highlights: list[str]
+) -> list[ProfileBioSegment]:
     if not bio_short:
         return []
 

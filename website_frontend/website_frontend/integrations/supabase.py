@@ -361,6 +361,9 @@ class SupabaseAPI:
             ):
                 return None
 
+            if avatar_url is None or email is None:
+                return None
+
             return Profile(
                 full_name=full_name,
                 handle=handle,

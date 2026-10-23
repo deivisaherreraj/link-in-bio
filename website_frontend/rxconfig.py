@@ -20,6 +20,7 @@ def _normalize_api_url(value: str | None) -> str:
 
     return candidate
 
+
 tailwind_plugin = rx.plugins.TailwindV4Plugin(
     {
         "plugins": ["@tailwindcss/typography"],

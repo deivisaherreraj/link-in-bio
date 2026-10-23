@@ -1,3 +1,5 @@
+from urllib.parse import unquote
+
 import reflex as rx
 
 import website_frontend.shared.browser as browser
@@ -10,7 +12,13 @@ from website_frontend.views.blog import blog_article_not_found_view, blog_articl
 class BlogArticleState(rx.State):
     @rx.var
     def article_slug(self) -> str:
-        return self.router.page.params.get("slug", "")
+        path = self.router.url.path.rstrip("/")
+        prefix = f"{Route.BLOG.value}/"
+        if not path.startswith(prefix):
+            return ""
+
+        slug = unquote(path.removeprefix(prefix))
+        return slug if "/" not in slug else ""
 
 
 @rx.page(

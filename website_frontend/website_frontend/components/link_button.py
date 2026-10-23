@@ -10,7 +10,7 @@ from website_frontend.styles.styles import Margin, Padding, Size, Spacing
 def link_button(
     href: str,
     title: str,
-    description: str,
+    description: str | None | rx.Var[str | None],
     image: str | None = None,
     icon: str | None = None,
     icon_color: str | None = None,
@@ -22,6 +22,7 @@ def link_button(
     animated: bool = False,
 ) -> rx.Component:
     class_name = ""
+    transparent_border = f"1px solid {Color.BG_WHITE_TRANSPARENT.value}"
 
     # Animación opcional (animate.css)
     if animated:
@@ -32,9 +33,15 @@ def link_button(
         "marginBottom": Margin.ZERO.value,
         "borderRadius": "18px",
         "minHeight": "96px",
-        "background": "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0.05) 100%)",
+        "background": (
+            "linear-gradient(180deg, rgba(255,255,255,0.08) 0%, "
+            "rgba(255,255,255,0.05) 100%)"
+        ),
         "boxShadow": "0 18px 44px rgba(0, 0, 0, 0.22)",
-        "transition": "transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease, background 180ms ease",
+        "transition": (
+            "transform 180ms ease, box-shadow 180ms ease, "
+            "border-color 180ms ease, background 180ms ease"
+        ),
     }
 
     if is_disabled:
@@ -129,10 +136,10 @@ def link_button(
                             white_space="nowrap",
                             style={
                                 "backgroundColor": badge_color,
-                                "border": f"1px solid {Color.BG_WHITE_TRANSPARENT.value}",
+                                "border": transparent_border,
                             }
                             if badge_color
-                            else {"border": f"1px solid {Color.BG_WHITE_TRANSPARENT.value}"},
+                            else {"border": transparent_border},
                             as_="span",
                         ),
                     ),
@@ -178,7 +185,8 @@ def link_button(
         ),
         disabled=is_disabled or not is_actionable,
         class_name=(
-            f"{class_name} transition-all duration-200 hover:-translate-y-0.5 hover:shadow-[0_20px_48px_rgba(0,0,0,0.26)]"
+            f"{class_name} transition-all duration-200 hover:-translate-y-0.5 "
+            "hover:shadow-[0_20px_48px_rgba(0,0,0,0.26)]"
             if is_interactive
             else class_name
         ).strip(),

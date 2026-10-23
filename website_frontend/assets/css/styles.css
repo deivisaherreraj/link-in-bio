@@ -93,15 +93,18 @@
   transition: opacity 0.28s ease, transform 0.28s ease;
 }
 
-.featured-hover-card:hover .featured-image {
+.featured-hover-card:hover .featured-image,
+.featured-hover-card:focus-within .featured-image {
   transform: scale(1.05);
 }
 
-.featured-hover-card:hover .featured-scrim {
+.featured-hover-card:hover .featured-scrim,
+.featured-hover-card:focus-within .featured-scrim {
   opacity: 1;
 }
 
-.featured-hover-card:hover .featured-overlay {
+.featured-hover-card:hover .featured-overlay,
+.featured-hover-card:focus-within .featured-overlay {
   opacity: 1;
   transform: translateY(0);
 }

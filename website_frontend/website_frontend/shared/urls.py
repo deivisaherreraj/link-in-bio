@@ -10,7 +10,7 @@ def is_actionable_href(url: str | None) -> bool:
 
 
 def is_actionable_external_url(url: str | None) -> bool:
-    if not is_actionable_href(url):
+    if url is None or not is_actionable_href(url):
         return False
 
     parsed = urlparse(url.strip())
@@ -18,7 +18,7 @@ def is_actionable_external_url(url: str | None) -> bool:
 
 
 def is_actionable_internal_route(url: str | None) -> bool:
-    if not is_actionable_href(url):
+    if url is None or not is_actionable_href(url):
         return False
 
     candidate = url.strip()

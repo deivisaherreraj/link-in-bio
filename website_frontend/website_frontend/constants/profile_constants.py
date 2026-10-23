@@ -90,7 +90,9 @@ def _build_avatar_status(key: str, payload: object) -> AvatarStatus | None:
 
 
 def resolve_availability_status(raw_key: object, *, default_key: str) -> AvatarStatus:
-    default_status = _build_avatar_status(default_key, AVAILABILITY_STATES.get(default_key))
+    default_status = _build_avatar_status(
+        default_key, AVAILABILITY_STATES.get(default_key)
+    )
     if default_status is None:
         msg = f"Invalid default availability status catalog entry: {default_key}"
         raise ValueError(msg)
@@ -102,9 +104,11 @@ def resolve_availability_status(raw_key: object, *, default_key: str) -> AvatarS
     if not normalized_key:
         return default_status
 
-    return _build_avatar_status(
-        normalized_key, AVAILABILITY_STATES.get(normalized_key)
-    ) or default_status
+    return (
+        _build_avatar_status(normalized_key, AVAILABILITY_STATES.get(normalized_key))
+        or default_status
+    )
+
 
 # ===============================
 # Tecnologías del Perfil

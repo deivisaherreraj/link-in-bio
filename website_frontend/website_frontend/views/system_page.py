@@ -49,9 +49,7 @@ def _action(
             justify_content="center",
             align_items="center",
             padding_x=Padding.BIG.value,
-            background_color=(
-                accent if is_primary else BackgroundColor.SURFACE.value
-            ),
+            background_color=(accent if is_primary else BackgroundColor.SURFACE.value),
             border=(
                 f"1px solid {accent}"
                 if is_primary

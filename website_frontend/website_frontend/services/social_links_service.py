@@ -31,9 +31,9 @@ def _default_icon_color(link: SocialLink) -> str | None:
 def _normalize_link_presentation(link: SocialLink) -> SocialLink:
     return link.model_copy(
         update={
-            "badge": link.badge if link.badge is not None else (
-                "Próximamente" if not link.is_active else None
-            ),
+            "badge": link.badge
+            if link.badge is not None
+            else ("Próximamente" if not link.is_active else None),
             "icon_color": link.icon_color or _default_icon_color(link),
         }
     )
@@ -57,7 +57,9 @@ def get_default_social_links() -> list[SocialLink]:
 
 
 def get_social_links() -> list[SocialLink]:
-    social_links = [_normalize_link_presentation(link) for link in SUPABASE_API.social_links()]
+    social_links = [
+        _normalize_link_presentation(link) for link in SUPABASE_API.social_links()
+    ]
     if social_links:
         return social_links
 

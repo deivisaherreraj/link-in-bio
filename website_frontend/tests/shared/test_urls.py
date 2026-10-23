@@ -12,8 +12,9 @@ def test_is_actionable_href_rejects_empty_and_placeholders() -> None:
     assert is_actionable_href("#") is False
 
 
-def test_is_actionable_href_accepts_non_placeholder_internal_and_external_urls(
-) -> None:
+def test_is_actionable_href_accepts_non_placeholder_internal_and_external_urls() -> (
+    None
+):
     assert is_actionable_href("/projects") is True
     assert is_actionable_href("https://example.com") is True
 

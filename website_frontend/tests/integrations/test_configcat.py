@@ -88,9 +88,7 @@ def test_schedule_returns_empty_dict_for_non_mapping_json_payload():
 
 def test_schedule_returns_empty_dict_for_non_string_value():
     configcat_api = ConfigCatAPI()
-    configcat_api.configcat = StubConfigCatClient(
-        {"live_schedule": {"0": "18:00"}}
-    )
+    configcat_api.configcat = StubConfigCatClient({"live_schedule": {"0": "18:00"}})
 
     result = configcat_api.schedule()
 
